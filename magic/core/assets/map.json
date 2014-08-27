@@ -1,0 +1,62 @@
+{
+	"rows": [
+		{"values": [1,1,1,1,1,1,1,1,1]},
+		{"values": [1,0,0,0,0,0,0,2,1]},
+		{"values": [1,0,1,1,1,1,1,0,1]},
+		{"values": [1,1,1,0,0,0,1,0,1]},
+		{"values": [1,0,0,0,0,0,0,0,1]},
+		{"values": [1,0,1,0,0,0,1,0,1]},
+		{"values": [1,0,0,0,0,0,0,0,1]},
+		{"values": [1,0,1,0,2,0,1,0,1]},
+		{"values": [1,0,0,0,0,0,0,0,1]},
+		{"values": [1,0,1,0,0,0,1,0,1]},
+		{"values": [1,0,0,0,0,0,0,0,1]},
+		{"values": [1,0,1,0,0,0,1,0,1]},
+		{"values": [1,2,1,1,1,1,1,1,1]}
+	],
+	"width" : 9,
+	"height" : 13,
+	"templates" : [
+		{
+			"value" : 0,
+			"isSolid" : false,
+			"mapTiles" : [
+				{
+					"model" : "Ceiling",
+					"texture" : "ceiling.png"
+				},
+				{
+					"model" : "Floor",
+					"texture" : "floor.png"
+				}
+			],
+			"hasLight" : false
+		},
+		{
+			"value" : 1,
+			"isSolid" : true,
+			"mapTiles" : [
+				{
+					"model" : "Wall",
+					"texture" : "wall.png"
+				}
+			],
+			"hasLight" : false
+		},
+		{
+			"value" : 2,
+			"isSolid" : false,
+			"mapTiles" : [
+				{
+					"model" : "Ceiling",
+					"texture" : "ceiling.png"
+				},
+				{
+					"model" : "Floor",
+					"texture" : "floor.png"
+				}
+			],
+			"hasLight" : true
+		}
+	]
+}
