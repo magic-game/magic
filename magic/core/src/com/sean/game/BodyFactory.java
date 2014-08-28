@@ -12,6 +12,26 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
 public class BodyFactory {
 
+	public Body createPersonBody(World world, Vector3 pos) {
+		CircleShape boxShape = new CircleShape();
+		boxShape.setRadius(0.4f);
+		BodyDef boxBodyDef = new BodyDef();
+		boxBodyDef.position.set(pos.x, pos.z);
+		boxBodyDef.angle = MathUtils.PI / 32;
+		boxBodyDef.type = BodyType.DynamicBody;
+		boxBodyDef.fixedRotation = false;
+		Body boxBody = world.createBody(boxBodyDef);
+		FixtureDef boxFixtureDef = new FixtureDef();
+		boxFixtureDef.shape = boxShape;
+		boxFixtureDef.friction = 0f;
+		boxFixtureDef.restitution = 1.0f;
+		boxFixtureDef.density = 10.0f;
+		boxBody.createFixture(boxFixtureDef);
+		boxShape.dispose();
+		
+		return boxBody;
+	}
+	
 	public Body createWallBody(World world, Vector3 pos) {
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.position.set(pos.x, pos.z);

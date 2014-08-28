@@ -6,6 +6,7 @@ import java.util.List;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.math.Vector3;
 import com.sean.game.LightHolder;
+import com.sean.game.entity.Entity;
 
 public class Tile {
 	
@@ -13,6 +14,7 @@ public class Tile {
 	public Vector3 pos;
 	public boolean blocking;
 	public LightHolder lightHolder;
+	public Entity entity;
 	
 	public Tile () {
 		models = new ArrayList<ModelInstance>();

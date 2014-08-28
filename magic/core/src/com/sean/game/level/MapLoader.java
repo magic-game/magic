@@ -8,6 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g3d.decals.Decal;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Json;
@@ -16,6 +20,8 @@ import com.sean.game.BodyFactory;
 import com.sean.game.LightHolder;
 import com.sean.game.MagicConstants;
 import com.sean.game.ModelAssets;
+import com.sean.game.entity.Entity;
+import com.sean.game.entity.PersonEntity;
 import com.sean.game.level.json.MapTile;
 import com.sean.game.level.json.Mappings;
 import com.sean.game.level.json.Row;
@@ -82,9 +88,19 @@ public class MapLoader {
 						bodyFactory.createWallBody(world, tile.pos);
 					}
 				}
-				if (template.hasLight) {
-					LightHolder lightHolder = new LightHolder(new Vector3((float) Math.random(), (float) Math.random(), (float) Math.random()), new Vector3(tile.pos.x, tile.pos.y, tile.pos.z), 4.0f);
+				if (template.light != null) {
+					LightHolder lightHolder = new LightHolder(new Vector3(template.light.r, template.light.g, template.light.b), new Vector3(tile.pos.x, tile.pos.y, tile.pos.z), template.light.intensity);
 					tile.lightHolder = lightHolder;
+				}
+				if (template.entity != null) {
+					if (template.entity.type.equals("person")) {
+						Texture image = new Texture(Gdx.files.internal(template.entity.image));
+						Decal decal = Decal.newDecal(0.8f, 0.8f, new TextureRegion(image), true);
+						decal.setPosition(tile.pos);
+						Entity e = new PersonEntity(bodyFactory.createPersonBody(world, tile.pos), decal, tile.lightHolder, template.entity.health);
+						e.getBody().setUserData(e);
+						tile.entity = e;
+					}
 				}
 				tile.updatePosition();
 				tiles.add(tile);

@@ -12,4 +12,5 @@ public interface Entity {
 	public Vector3 getPosition();
 	public LightHolder getLightHolder();
 	public Decal getDecal();
+	public void handleCollision();
 }

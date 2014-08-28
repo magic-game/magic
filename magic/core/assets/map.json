@@ -10,7 +10,7 @@
 		{"values": [1,0,1,0,2,0,1,0,1]},
 		{"values": [1,0,0,0,0,0,0,0,1]},
 		{"values": [1,0,1,0,0,0,1,0,1]},
-		{"values": [1,0,0,0,0,0,0,0,1]},
+		{"values": [1,0,0,0,3,0,0,0,1]},
 		{"values": [1,0,1,0,0,0,1,0,1]},
 		{"values": [1,2,1,1,1,1,1,1,1]}
 	],
@@ -29,8 +29,7 @@
 					"model" : "Floor",
 					"texture" : "floor.png"
 				}
-			],
-			"hasLight" : false
+			]
 		},
 		{
 			"value" : 1,
@@ -40,8 +39,7 @@
 					"model" : "Wall",
 					"texture" : "wall.png"
 				}
-			],
-			"hasLight" : false
+			]
 		},
 		{
 			"value" : 2,
@@ -56,7 +54,38 @@
 					"texture" : "floor.png"
 				}
 			],
-			"hasLight" : true
+			"light" : {
+				"intensity" : 4.0,
+				"r" : 0.0,
+				"g" : 0.8,
+				"b" : 0.8
+			},
+
+		},
+		{
+			"value" : 3,
+			"isSolid" : false,
+			"mapTiles" : [
+				{
+					"model" : "Ceiling",
+					"texture" : "ceiling.png"
+				},
+				{
+					"model" : "Floor",
+					"texture" : "floor.png"
+				}
+			],
+			"light" : {
+				"intensity" : "1.0",
+				"r" : 1.0,
+				"g" : 0.0,
+				"b" : 1.0
+			},
+			"entity" : {
+				"type" : "person",
+				"health" : 1,
+				"image" : "eye.png"
+			}
 		}
 	]
 }

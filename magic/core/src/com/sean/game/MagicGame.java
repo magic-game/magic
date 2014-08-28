@@ -51,7 +51,7 @@ public class MagicGame implements ApplicationListener {
 	float spinner;
 
 	private static final int MAX_LIGHTS = 5;
-
+	
 	@Override
 	public void create() {
 		Gdx.gl.glEnable(GL20.GL_BLEND);
@@ -75,7 +75,12 @@ public class MagicGame implements ApplicationListener {
 		map = new MapLoader().loadJson("../core/assets/map.json", modelAssets, world);
 		instances = map.getModelInstances();
 		lightHolders = map.getLightHolders();
-
+		List<Entity> ents = map.getEntities();
+		for (Entity entity : ents) {
+			decals.add(entity.getDecal());
+		}
+		entities.addAll(map.getEntities());
+		
 		lights = new ArrayList<PointLight>();
 		for (int i = 0; i < MAX_LIGHTS; i++) {
 			PointLight light = new PointLight();
