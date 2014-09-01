@@ -3,6 +3,7 @@ package com.sean.game;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 import com.badlogic.gdx.ApplicationListener;
@@ -26,9 +27,19 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.sean.game.entity.Entity;
 import com.sean.game.entity.EntityState;
+import com.sean.game.entity.ExplosionParticle;
 import com.sean.game.entity.MagicEntity;
+import com.sean.game.entity.MagicExplosion;
+import com.sean.game.entity.PersonEntity;
 import com.sean.game.level.BasicMap;
 import com.sean.game.level.MapLoader;
+import com.sean.game.magic.Action;
+import com.sean.game.magic.CreateMagicBallAction;
+import com.sean.game.magic.Event;
+import com.sean.game.magic.HurtPersonAction;
+import com.sean.game.magic.ImpulseEntityAction;
+import com.sean.game.magic.Spell;
+import com.sean.game.magic.SpellBuilder;
 
 public class MagicGame implements ApplicationListener {
 
@@ -49,6 +60,8 @@ public class MagicGame implements ApplicationListener {
 	List<Entity> entities;
 	public Shader shader;
 	float spinner;
+	List<MagicExplosion> explosions;
+	List<Spell> spells;
 
 	private static final int MAX_LIGHTS = 5;
 	
@@ -58,7 +71,7 @@ public class MagicGame implements ApplicationListener {
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		
 		world = new World(new Vector2(0, 0), true);
-		world.setContactListener(new LoggingContactListener());
+		world.setContactListener(new LoggingContactListener(this));
 		entities = new ArrayList<Entity>();
 		modelBatch = new ModelBatch();
 		modelAssets = new ModelAssets();
@@ -88,6 +101,8 @@ public class MagicGame implements ApplicationListener {
 			lights.add(light);
 			environment.add(light);
 		}
+		explosions = new ArrayList<MagicExplosion>();
+		spells = new ArrayList<Spell>();
 	}
 
 	@Override
@@ -117,6 +132,12 @@ public class MagicGame implements ApplicationListener {
 			decal.lookAt(camera.position, camera.up);
 			decalBatch.add(decal);
 		}
+		for (MagicExplosion me : explosions) {
+			for (ExplosionParticle ep : me.particles) {
+				ep.decal.lookAt(camera.position, camera.up);
+				decalBatch.add(ep.decal);
+			}
+		}
 		decalBatch.flush();
 	}
 	
@@ -129,6 +150,20 @@ public class MagicGame implements ApplicationListener {
 				decals.remove(entity.getDecal());
 			}
 		}
+		for (MagicExplosion me : explosions) {
+			for (ExplosionParticle ep : me.particles) {
+				ep.update();
+			}
+			me.update();
+		}
+		Iterator<MagicExplosion> mei = explosions.iterator();
+		while (mei.hasNext()) {
+			MagicExplosion me = mei.next();
+			if (!me.alive) {
+				lightHolders.remove(me.lightHolder);
+				mei.remove();
+			}
+		}
 	}
 	
 	public void cleanUpBodies() {
@@ -137,6 +172,11 @@ public class MagicGame implements ApplicationListener {
 		for (Body body : bodies) {
 			Entity data = (Entity) body.getUserData();
 			if (data != null && data.getState() == EntityState.DEAD) {
+				if (data instanceof PersonEntity) {
+					createExplosion(data, new Vector3(1.0f,0.1f,0.1f));
+				} else {
+					createExplosion(data, new Vector3(1.0f,1.0f,1.0f));
+				}
 				world.destroyBody(body);
 			}
 		}
@@ -170,26 +210,75 @@ public class MagicGame implements ApplicationListener {
 		camera.direction.set(new Vector3((float) Math.cos(angle), 0f, (float) Math.sin(angle)));
 		camera.update();
 	}
-
-	public void createEntity(Vector3 position) {
+	
+	public Spell createSpell() {
+		Event initEvent = new Event("Init", this.player);
+		Action action = new CreateMagicBallAction();
+		Event onCreateEvent = new Event("CreateMagicBall", null);
+		Action impulseAction = new ImpulseEntityAction();
+		Event collideEvent = new Event("OnCollide", null);
+		Action hurtPersonAction = new HurtPersonAction(1);
+		Spell spell = new SpellBuilder()
+							.init(this)
+							.addEventActionPair(initEvent, action)
+							.addEventActionPair(onCreateEvent, impulseAction)
+							.addEventActionPair(collideEvent, hurtPersonAction)
+							.build();
+		spell.handleEvent(initEvent);
+		spells.add(spell);
+		return spell;
+	}
+	
+	public Entity createEntity(Vector3 position) {
 		position.add(camera.direction.scl(1.0f));
 		Vector2 angle = new Vector2(camera.direction.x, camera.direction.z);
-		LightHolder lightHolder = new LightHolder(new Vector3(0.5f, 1.5f, 0.5f), position.cpy(), 4.0f);
+		LightHolder lightHolder = new LightHolder(new Vector3(0.5f, 1.0f, 0.7f), position.cpy(), 3.0f);
 		Texture image = new Texture(Gdx.files.internal("ball.png"));
 		Decal decal = Decal.newDecal(0.19f, 0.19f, new TextureRegion(image), true);
 		decal.setPosition(position);
 		Body entityBody = BodyFactory.createMagicEntityBody(world, position, angle.angleRad());
 		Entity entity = new MagicEntity(world, decal, lightHolder, 1.0f, entityBody);
 		entityBody.setUserData(entity);
-		moveBody(entityBody, 0.4f);
 		entities.add(entity);
 		decals.add(decal);
 		lightHolders.add(lightHolder);
+		return entity;
 	}
 
-	private void moveBody(Body body, float amount) {
+	public void moveBody(Body body, float amount) {
 		Vector2 direction = new Vector2((float)Math.cos(body.getAngle()), (float)Math.sin(body.getAngle()));
 		body.applyLinearImpulse(direction.scl(amount), body.getPosition(), true);
+	}
+	 
+	public void createExplosion(Entity entity, Vector3 color) {
+		Vector3 position = new Vector3(entity.getLastPosition());
+		List<ExplosionParticle> eps = new ArrayList<ExplosionParticle>();
+		int particles = (int)(Math.random() * 10) + 20;
+		
+		for (int index = 0; index < particles; index++) {
+			float x = 0.07f - ((float)Math.random() * 0.14f);
+			float y = 0.04f - ((float)Math.random() * 0.08f);
+			float z = 0.07f - ((float)Math.random() * 0.14f);
+			Vector3 pos = position.cpy();
+			Vector3 vel = new Vector3(x, y, z);
+			
+			ExplosionParticle ep = new ExplosionParticle(pos, getExplosionDecal(pos), vel, color, 1.0f);
+			eps.add(ep);
+		}
+		
+		
+		LightHolder lightHolder = new LightHolder(color, position.cpy(), 12.0f);
+		MagicExplosion me = new MagicExplosion(eps, lightHolder);
+		lightHolders.add(lightHolder);
+		explosions.add(me);
+	}
+	
+	private Decal getExplosionDecal(Vector3 pos) {
+		Texture image = new Texture(Gdx.files.internal("particle.png"));
+		float x = ((float) Math.random() % 0.12f) + 0.03f;
+		Decal decal = Decal.newDecal(x, x, new TextureRegion(image), true);
+		decal.setPosition(pos.cpy());
+		return decal;
 	}
 	
 	@Override

@@ -8,9 +8,17 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.sean.game.entity.Entity;
+import com.sean.game.magic.Event;
 
 public class LoggingContactListener implements ContactListener {
 
+	private MagicGame game;
+	
+	public LoggingContactListener(MagicGame game) {
+		super();
+		this.game = game;
+	}
+	
 	@Override
 	public void beginContact(Contact contact) {
 		Fixture fixtureA = contact.getFixtureA();
@@ -34,15 +42,19 @@ public class LoggingContactListener implements ContactListener {
 		Body bodyA = fixtureA.getBody();
 		Body bodyB = fixtureB.getBody();
 		Object objA = bodyA.getUserData();
-		if (objA instanceof Entity) {
-			((Entity)objA).handleCollision();
-		}
-		objA = bodyB.getUserData();
-		if (objA instanceof Entity) {
-			((Entity)objA).handleCollision();
-		}
+		Object objB = bodyB.getUserData();
+		Entity entityA = objA instanceof Entity ? ((Entity)objA) : null;
+		Entity entityB = objB instanceof Entity ? ((Entity)objB) : null;
+		handle(entityA, entityB);
+		handle(entityB, entityA);
 	}
 
+	private void handle(Entity objA, Entity objB) {
+		if (objA != null) {
+			objA.notify(new Event("OnCollide", objB));
+		}
+	}
+	
 	@Override
 	public void postSolve(Contact contact, ContactImpulse impulse) {
 	}
