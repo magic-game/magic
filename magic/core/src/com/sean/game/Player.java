@@ -8,28 +8,24 @@ import com.sean.game.entity.Entity;
 import com.sean.game.entity.EntityState;
 import com.sean.game.entity.Listener;
 import com.sean.game.magic.Event;
-import com.sean.game.magic.Spell;
 
 public class Player implements Entity {
 
 	Body body;
 	World world;
-	MagicGame magicGame;
+	EntityFactory entityFactory;
 	boolean lockLeft;
 	int health;
 	
-	public Player(Body body, MagicGame magicGame) {
+	public Player(Body body, EntityFactory entityFactory) {
 		this.body = body;
-		this.magicGame = magicGame;
+		this.entityFactory = entityFactory;
 		this.health = 10;
 	}
 	
 	public void useLeft(boolean down) {
 		if (down && !lockLeft) {
-//			Entity entity = magicGame.createEntity(new Vector3(body.getWorldCenter().x, 0, body.getWorldCenter().y));
-//			magicGame.moveBody(entity.getBody(), 0.4f);
-			Spell spell = magicGame.createSpell();
-			
+			entityFactory.createSpell(this);			
 			lockLeft = true;
 		}
 		if (!down) {

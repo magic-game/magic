@@ -5,16 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.sean.game.MagicGame;
+import com.sean.game.EntityFactory;
 
 public class SpellBuilder {
 
-	private MagicGame magicGame;
+	private EntityFactory entityFactory;
 	private Map<Event, List<Action>> events;
 	
-	public SpellBuilder init(MagicGame magicGame) {
+	public SpellBuilder init(EntityFactory entityFactory) {
 		this.events = new HashMap<Event, List<Action>>();
-		this.magicGame = magicGame;
+		this.entityFactory = entityFactory;
 		return this;
 	}
 	
@@ -29,7 +29,7 @@ public class SpellBuilder {
 	}
 	
 	public Spell build() {
-		Spell spell = new Spell(events, magicGame);
+		Spell spell = new Spell(events, entityFactory);
 		return spell;
 	}
 }

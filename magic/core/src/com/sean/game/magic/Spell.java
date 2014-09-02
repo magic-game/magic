@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.sean.game.MagicGame;
+import com.sean.game.EntityFactory;
 import com.sean.game.entity.Listener;
 
 public class Spell implements Listener {
 	
 	Map<Event, List<Action>> events;
-	MagicGame magicGame;
+	EntityFactory entityFactory;
 	
-	public Spell(Map<Event, List<Action>> events, MagicGame magicGame) {
+	public Spell(Map<Event, List<Action>> events, EntityFactory entityFactory) {
 		this.events = events;
-		this.magicGame = magicGame;
+		this.entityFactory = entityFactory;
 	}
 
 	public void addEventActionPair(Event event, Action action) {
@@ -30,7 +30,7 @@ public class Spell implements Listener {
 		List<Action> actions = events.get(event);
 		if (actions != null) {
 			for (Action action : actions) {
-				action.perform(event, this, magicGame);
+				action.perform(event, this, entityFactory);
 			}			
 		}
 	}

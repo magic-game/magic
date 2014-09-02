@@ -2,7 +2,6 @@ package com.sean.game.entity;
 
 import com.badlogic.gdx.graphics.g3d.decals.Decal;
 import com.badlogic.gdx.math.Vector3;
-import com.sean.game.LightHolder;
 
 public class ExplosionParticle {
 
@@ -33,5 +32,4 @@ public class ExplosionParticle {
 			this.alive = false;
 		}
 	}
-	
 }

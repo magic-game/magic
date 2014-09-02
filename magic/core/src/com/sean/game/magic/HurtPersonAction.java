@@ -1,6 +1,6 @@
 package com.sean.game.magic;
 
-import com.sean.game.MagicGame;
+import com.sean.game.EntityFactory;
 import com.sean.game.entity.Entity;
 
 public class HurtPersonAction implements Action {
@@ -12,7 +12,7 @@ public class HurtPersonAction implements Action {
 	}
 	
 	@Override
-	public void perform(Event e, Spell s, MagicGame m) {
+	public void perform(Event e, Spell s, EntityFactory entityFactory) {
 		Entity entity = e.getSource();
 		if (entity != null) {
 			entity.getHurt(damage);			

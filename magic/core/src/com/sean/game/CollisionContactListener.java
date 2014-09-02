@@ -10,13 +10,10 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.sean.game.entity.Entity;
 import com.sean.game.magic.Event;
 
-public class LoggingContactListener implements ContactListener {
-
-	private MagicGame game;
+public class CollisionContactListener implements ContactListener {
 	
-	public LoggingContactListener(MagicGame game) {
+	public CollisionContactListener() {
 		super();
-		this.game = game;
 	}
 	
 	@Override
