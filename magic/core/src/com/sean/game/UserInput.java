@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.IntIntMap;
+import com.sean.game.entity.Player;
 
 public class UserInput extends InputAdapter {
 	
@@ -14,10 +15,12 @@ public class UserInput extends InputAdapter {
 	private final IntIntMap keys = new IntIntMap();
 	private float TURN_SPEED = 1.6f;
 	private float MOVE_SPEED = 0.8f;
+	private MagicGame magicGame;
 	
-	public UserInput (Player player) {
-		this.body = player.body;
+	public UserInput (Player player, MagicGame magicGame) {
+		this.body = player.entity.getBody();
 		this.player = player;
+		this.magicGame = magicGame;
 	}
 
 	@Override
@@ -85,6 +88,11 @@ public class UserInput extends InputAdapter {
 			player.useLeft(true);
 		} else {
 			player.useLeft(false);
+		}
+		
+		if (keys.containsKey(Keys.TAB)) {
+			magicGame.setGamePlay(GamePlay.CRAFT_MENU);
+			keys.remove(Keys.TAB, 0);
 		}
 	}
 }

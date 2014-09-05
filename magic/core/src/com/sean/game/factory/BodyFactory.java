@@ -1,4 +1,4 @@
-package com.sean.game;
+package com.sean.game.factory;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
@@ -9,9 +9,10 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.sean.game.MagicConstants;
 
 public class BodyFactory {
-
+	
 	public Body createPersonBody(World world, Vector3 pos) {
 		CircleShape boxShape = new CircleShape();
 		boxShape.setRadius(0.4f);
@@ -43,9 +44,9 @@ public class BodyFactory {
 		return body;
 	}
 	
-	public static Body createMagicEntityBody(World world, Vector3 pos, float angle) {
+	public static Body createEntityBody(World world, Vector3 pos, float angle, float radius, float density, float restitution) {
 		CircleShape boxShape = new CircleShape();
-		boxShape.setRadius(0.04f);
+		boxShape.setRadius(radius);
 		BodyDef boxBodyDef = new BodyDef();
 		boxBodyDef.position.set(pos.x, pos.z);
 		boxBodyDef.angle = MathUtils.PI / 32;
@@ -56,31 +57,10 @@ public class BodyFactory {
 		FixtureDef boxFixtureDef = new FixtureDef();
 		boxFixtureDef.shape = boxShape;
 		boxFixtureDef.friction = 0f;
-		boxFixtureDef.restitution = 1.0f;
-		boxFixtureDef.density = 10.0f;
+		boxFixtureDef.restitution = restitution;
+		boxFixtureDef.density = density;
 		boxBody.createFixture(boxFixtureDef);
 		boxShape.dispose();
-		
-		return boxBody;
-	}
-	
-	public Body createPlayerBody(World world) {
-		CircleShape boxShape = new CircleShape();
-		boxShape.setRadius(0.2f);
-		BodyDef boxBodyDef = new BodyDef();
-		boxBodyDef.position.set(3, 4);
-		boxBodyDef.angle = MathUtils.PI / 32;
-		boxBodyDef.type = BodyType.DynamicBody;
-		boxBodyDef.fixedRotation = false;
-		Body boxBody = world.createBody(boxBodyDef);
-		FixtureDef boxFixtureDef = new FixtureDef();
-		boxFixtureDef.shape = boxShape;
-		boxFixtureDef.friction = 0;
-		boxFixtureDef.density = 10.0f;
-		boxBody.createFixture(boxFixtureDef);
-		boxShape.dispose();
-		boxBody.setAngularDamping(10f);
-		boxBody.setLinearDamping(20f);
 		return boxBody;
 	}
 }

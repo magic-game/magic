@@ -1,13 +1,16 @@
-package com.sean.game.magic;
+package com.sean.game.magic.actions;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.sean.game.EntityFactory;
+import com.sean.game.factory.FactoryFacade;
+import com.sean.game.magic.Action;
+import com.sean.game.magic.Event;
+import com.sean.game.magic.Spell;
 
 public class ImpulseEntityAction implements Action {
 
 	@Override
-	public void perform(Event e, Spell s, EntityFactory entityFactory) {
+	public void perform(Event e, Spell s, FactoryFacade entityFactory) {
 		Body body = e.getSource().getBody();
 		moveBody(body, 0.4f);
 	}

@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.sean.game.entity.Entity;
 import com.sean.game.magic.Event;
+import com.sean.game.magic.EventType;
 
 public class CollisionContactListener implements ContactListener {
 	
@@ -48,12 +49,11 @@ public class CollisionContactListener implements ContactListener {
 
 	private void handle(Entity objA, Entity objB) {
 		if (objA != null) {
-			objA.notify(new Event("OnCollide", objB));
+			objA.notify(new Event(EventType.COLLISION, objB));
 		}
 	}
 	
 	@Override
 	public void postSolve(Contact contact, ContactImpulse impulse) {
 	}
-
 }

@@ -1,4 +1,4 @@
-package com.sean.game;
+package com.sean.game.factory;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.PerspectiveCamera;

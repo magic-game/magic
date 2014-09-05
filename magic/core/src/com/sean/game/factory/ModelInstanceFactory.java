@@ -1,4 +1,4 @@
-package com.sean.game;
+package com.sean.game.factory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +20,7 @@ import com.badlogic.gdx.graphics.g3d.loader.G3dModelLoader;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.utils.UBJsonReader;
 
-public class ModelAssets {
+public class ModelInstanceFactory {
 
 	public Model wallModel;
 	public Model floorModel;
@@ -34,7 +34,7 @@ public class ModelAssets {
 
 	Map<String, Texture> textures = new HashMap<String, Texture>();
 
-	public ModelAssets() {
+	public ModelInstanceFactory() {
 		ModelBuilder modelBuilder = new ModelBuilder();
 		wallModel = modelBuilder.createBox(s, s, s, new Material(ColorAttribute.createDiffuse(Color.WHITE)), Usage.Position | Usage.Normal | Usage.TextureCoordinates);
 		floorModel = modelBuilder.createRect(-hs, -hs, -hs, -hs, -hs, hs, hs, -hs, hs, hs, -hs, -hs, 0, 1, 0, new Material(ColorAttribute.createDiffuse(Color.WHITE)), Usage.Position | Usage.Normal

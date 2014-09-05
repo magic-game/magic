@@ -16,12 +16,12 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
-import com.sean.game.BodyFactory;
 import com.sean.game.LightHolder;
 import com.sean.game.MagicConstants;
-import com.sean.game.ModelAssets;
 import com.sean.game.entity.Entity;
 import com.sean.game.entity.PersonEntity;
+import com.sean.game.factory.BodyFactory;
+import com.sean.game.factory.ModelInstanceFactory;
 import com.sean.game.level.json.MapTile;
 import com.sean.game.level.json.Mappings;
 import com.sean.game.level.json.Row;
@@ -32,7 +32,7 @@ public class MapLoader {
 
 	static int MAX_LEVEL_SIZE = 100;
 	
-	public BasicMap loadJson(String resource, ModelAssets modelAssets, World world) {
+	public BasicMap loadJson(String resource, ModelInstanceFactory modelAssets, World world) {
 		BodyFactory bodyFactory = new BodyFactory();
 		
 		List<Tile> tiles = new ArrayList<Tile>();

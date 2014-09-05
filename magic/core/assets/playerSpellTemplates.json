@@ -1,0 +1,35 @@
+{
+	"name" : "joe",
+	"spellTemplateMappings" : [
+		{
+			"eventActionMappings" : [
+				{
+					"eventType" : "INIT",
+					"actionType" : "CREATE_MAGIC_BALL",
+					"paramMappings" : [
+						{
+							"name" : "TTL",
+							"value" : "1.0",
+							"type" : "Float"
+						}
+					]
+				},
+				{
+					"eventType" : "CREATE",
+					"actionType" : "IMPULSE_ENTITY",
+					"paramMappings" : [
+						
+					]
+				},
+				{
+					"eventType" : "COLLISION",
+					"actionType" : "HURT_PERSON",
+					"paramMappings" : [
+						
+					]
+				}
+			]
+		}	
+	]
+
+}

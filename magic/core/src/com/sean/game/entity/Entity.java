@@ -17,4 +17,5 @@ public interface Entity {
 	public void getHurt(int damage);
 	public void addListener(Listener listener);
 	public void notify(Event event);
+	public Vector3 getDirection();
 }

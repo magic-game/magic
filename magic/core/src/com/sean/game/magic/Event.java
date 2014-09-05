@@ -4,19 +4,35 @@ import com.sean.game.entity.Entity;
 
 public class Event {
 	
-	private String name;
+	private EventType type;
 	private Entity source;
 	
-	public Event(String name, Entity source) {
-		this.name = name;
+	public Event(EventType type, Entity source) {
+		this.type = type;
 		this.source = source;
 	}
-	
+
+	public EventType getType() {
+		return type;
+	}
+
+	public void setType(EventType type) {
+		this.type = type;
+	}
+
+	public Entity getSource() {
+		return source;
+	}
+
+	public void setSource(Entity source) {
+		this.source = source;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
 
@@ -29,18 +45,8 @@ public class Event {
 		if (getClass() != obj.getClass())
 			return false;
 		Event other = (Event) obj;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
+		if (type != other.type)
 			return false;
 		return true;
-	}
-
-	public Entity getSource() {
-		return source;
-	}
-	public String getName() {
-		return name;
 	}
 }
