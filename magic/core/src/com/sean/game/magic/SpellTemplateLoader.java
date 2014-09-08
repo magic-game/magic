@@ -1,11 +1,13 @@
 package com.sean.game.magic;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
 import com.sean.game.magic.json.EventActionMapping;
@@ -46,33 +48,77 @@ public class SpellTemplateLoader {
 		
 		UserMapping userMapping = json.fromJson(UserMapping.class, line);
 		
+		
+		
 		for (SpellTemplateMapping templateMappings : userMapping.spellTemplateMappings) {
-			List<EventActionStep> steps = new ArrayList<EventActionStep>();
-			for (EventActionMapping eventMapping : templateMappings.eventActionMappings) {
-				steps.add(new EventActionStep(EventType.valueOf(eventMapping.eventType), ActionType.valueOf(eventMapping.actionType), getParams(eventMapping.paramMappings)));
-			}
-			spellTemplates.add(new SpellTemplate(steps));
+			spellTemplates.add(createSpellTemplate(templateMappings));
 		}
 		
 		return spellTemplates;
 	}
 	
+	public static SpellTemplate createSpellTemplate(SpellTemplateMapping templateMappings) {
+		List<EventActionStep> steps = new ArrayList<EventActionStep>();
+		for (EventActionMapping eventMapping : templateMappings.eventActionMappings) {
+			steps.add(new EventActionStep(EventType.valueOf(eventMapping.eventType), ActionType.valueOf(eventMapping.actionType), getParams(eventMapping.paramMappings)));
+		}
+		return new SpellTemplate(steps, templateMappings.name, templateMappings.description);
+	}
+	
 	private static List<Param> getParams(List<ParamMapping> paramMappings) {
 		List<Param> params = new ArrayList<Param>();
-		for (ParamMapping paramMapping : paramMappings) {
-			params.add(new Param(paramMapping.name, paramMapping.value, paramMapping.type));
+		if (params != null) {
+			for (ParamMapping paramMapping : paramMappings) {
+				params.add(new Param(paramMapping.name, paramMapping.value, paramMapping.type));
+			}
 		}
 		return params;
 	}
 	
-//	public SpellTemplate getSpellTemplate() {
-//		List<Param> params = new ArrayList<Param>();
-//		params.add(new Param("TTL", "0.8", "Float"));
-//		SpellTemplate st = new SpellTemplate();
-//		st.steps.add(new EventActionStep(EventType.INIT, ActionType.CREATE_MAGIC_BALL, params));
-//		st.steps.add(new EventActionStep(EventType.CREATE, ActionType.IMPULSE_ENTITY, params));
-//		st.steps.add(new EventActionStep(EventType.COLLISION, ActionType.HURT_PERSON, params));
-//		
-//		return st;
-//	}
+	public static void saveSpellTemplates(List<SpellTemplate> templates, String location) {
+		
+		
+		Json json = new Json();
+		json.setTypeName(null);
+		json.setUsePrototypes(false);
+		json.setIgnoreUnknownFields(true);
+		json.setOutputType(OutputType.json);
+		
+		UserMapping userMapping = new UserMapping();
+		
+		List<SpellTemplateMapping> mappings = new ArrayList<SpellTemplateMapping>();
+		for (SpellTemplate spellTemplate : templates) {
+			SpellTemplateMapping spellTemplateMapping = new SpellTemplateMapping();
+			spellTemplateMapping.description = spellTemplate.description;
+			spellTemplateMapping.name = spellTemplate.name;
+			spellTemplateMapping.eventActionMappings = getEventActionMappings(spellTemplate);
+			mappings.add(spellTemplateMapping);
+		}
+		userMapping.spellTemplateMappings = mappings;
+		json.toJson(userMapping, new FileHandle(new File(location)));
+	}
+	
+	private static List<EventActionMapping> getEventActionMappings(SpellTemplate spellTemplate) {
+		List<EventActionMapping> eventActionMappings = new ArrayList<EventActionMapping>();
+		for (EventActionStep step : spellTemplate.steps) {
+			EventActionMapping mapping = new EventActionMapping();
+			mapping.actionType = step.actionType.toString();
+			mapping.eventType = step.eventType.toString();
+			mapping.paramMappings = getParams(step);	
+			eventActionMappings.add(mapping);
+		}
+		return eventActionMappings;
+	}
+	
+	private static List<ParamMapping> getParams(EventActionStep step) {
+		List<ParamMapping> params = new ArrayList<ParamMapping>();
+		for (Param param : step.params) {
+			ParamMapping paramMapping = new ParamMapping();
+			paramMapping.name = param.name;
+			paramMapping.type = param.type;
+			paramMapping.value = param.value;
+			params.add(paramMapping);
+		}
+		return params;
+	}
 }

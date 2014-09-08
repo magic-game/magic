@@ -1,12 +1,14 @@
 package com.sean.game.magic.actions;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.badlogic.gdx.math.Vector3;
 import com.sean.game.entity.Entity;
 import com.sean.game.factory.FactoryFacade;
 import com.sean.game.magic.Action;
+import com.sean.game.magic.ActionType;
 import com.sean.game.magic.Event;
 import com.sean.game.magic.EventType;
 import com.sean.game.magic.Param;
@@ -21,8 +23,15 @@ public class CreateMagicBallAction implements Action {
 		TTL;
 	}
 	
-	public CreateMagicBallAction(List<Param> params) {
-		this.params = new ArrayList<Param>(params);
+	public CreateMagicBallAction(List<Param> updatedParams) {
+		this.params = ActionType.CREATE_BALL.getParams();
+		for (Param updatedParam : updatedParams) {
+			for (Param param : params) {
+				if (param.name.equals(updatedParam.name)) {
+					param.value = updatedParam.value;
+				}
+			}
+		}
 	}
 	
 	public void perform(Event event, Spell spell, FactoryFacade entityFactory) {
@@ -43,5 +52,4 @@ public class CreateMagicBallAction implements Action {
 		Event event = new Event(EventType.CREATE, entity);
 		return event;
 	}
-	
 }

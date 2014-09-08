@@ -6,16 +6,12 @@ import java.util.List;
 public class SpellTemplate {
 
 	public List<EventActionStep> steps;
+	public String name;
+	public String description;
 	
-	public SpellTemplate() {
-		steps = new ArrayList<EventActionStep>();
-	}
-	
-	public SpellTemplate(List<EventActionStep> steps) {
+	public SpellTemplate(List<EventActionStep> steps, String name, String description) {
 		this.steps = new ArrayList<EventActionStep>(steps);
-	}
-	
-	public void addEventActionStep(EventActionStep eventActionStep) {
-		steps.add(eventActionStep);
+		this.name = name;
+		this.description = description;
 	}
 }

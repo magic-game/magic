@@ -12,50 +12,39 @@ import com.sean.game.MagicGame;
 
 public class CraftMenuUserInterface {
 	private SpriteBatch batch;
-	private Skin skin;
+	public Skin skin;
 	public Stage stage;
+	private TabGroup tabGroup;
 	
 	public CraftMenuUserInterface(final MagicGame magicGame) {
 		batch = new SpriteBatch();
 		skin = new Skin(Gdx.files.internal("uiskin.json"));
 		stage = new Stage();
-
-		final TextButton button = new TextButton("Click me", skin, "default");
-		button.setWidth(200f);
-		button.setHeight(20f);
-		button.setPosition(Gdx.graphics.getWidth() / 2 - 100f, Gdx.graphics.getHeight() / 2 - 10f);
-
-		button.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				button.setText("You clicked the button");
-			}
-		});
-
+		tabGroup = new TabGroup(skin, magicGame);
+		stage.addActor(tabGroup.group);
+		stage.addActor(createExitButton(magicGame));
+	}
+	
+	private TextButton createExitButton(final MagicGame magicGame) {
 		final TextButton exitButton = new TextButton("Back", skin, "default");
-		exitButton.setWidth(200f);
-		exitButton.setHeight(20f);
-		exitButton.setPosition(Gdx.graphics.getWidth() / 2 - 100f, Gdx.graphics.getHeight() / 2 - 100f);
-
+		exitButton.setWidth(100f);
+		exitButton.setHeight(30f);
+		exitButton.setPosition(450, 40);
 		exitButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-//				exitButton.setText("exiting");
 				magicGame.setGamePlay(GamePlay.FIRST_PERSON);
 			}
 		});
-		
-		stage.addActor(button);
-		stage.addActor(exitButton);
-		stage.getBatch().setColor(0, 0, 0, 0);
+		return exitButton;
 	}
-	
+
 	public void render() {
 		batch.begin();
 		stage.draw();
 		batch.end();
 	}
-	
+
 	public void dispose() {
 		batch.dispose();
 	}

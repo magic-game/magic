@@ -14,12 +14,18 @@ public class Player {
 	public PlayerEntity entity;
 	public List<SpellTemplate> spellTemplates;
 	public SpellTemplate currentSpellTemplate;
+	private int currentSpellIndex = 0;
+	boolean lockCycle = false;
 	
 	public Player(FactoryFacade entityFactory, Vector3 position, Vector3 direction) {
 		this.entityFactory = entityFactory;
 		this.entity = entityFactory.createPlayerEntity(position, direction);
-		spellTemplates = SpellTemplateLoader.loadSpellTemplatesFile("../core/assets/playerSpellTemplates.json");
-		currentSpellTemplate = spellTemplates.get(0);
+		loadSpellTemplates("../core/assets/playerData/player.json");
+	}
+	
+	public void loadSpellTemplates(String location) {
+		spellTemplates = SpellTemplateLoader.loadSpellTemplatesFile(location);
+		currentSpellTemplate = spellTemplates.get(currentSpellIndex);
 	}
 	
 	public void useLeft(boolean down) {
@@ -36,6 +42,24 @@ public class Player {
 	}
 		
 	public void useRight() {
+		
+	}
+	
+	public void cycleNextSpell(boolean down) {
+		if (down && !lockCycle) {
+			currentSpellIndex++;
+			if (currentSpellIndex >= spellTemplates.size()) {
+				currentSpellIndex = 0;
+			}
+			currentSpellTemplate = spellTemplates.get(currentSpellIndex);
+			
+//			SpellTemplateLoader.saveSpellTemplates(spellTemplates, "../core/assets/saveTest.json");
+			
+			lockCycle = true;
+		}
+		if (!down) {
+			lockCycle = false;
+		}
 		
 	}
 }

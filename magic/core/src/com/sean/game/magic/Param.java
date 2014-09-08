@@ -2,9 +2,9 @@ package com.sean.game.magic;
 
 public class Param {
 
-	public final String name;
-	public final String value;
-	public final String type;
+	public String name;
+	public String value;
+	public String type;
 	
 	public Param(String name, String value, String type) {
 		this.name = name;

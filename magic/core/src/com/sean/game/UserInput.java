@@ -89,10 +89,18 @@ public class UserInput extends InputAdapter {
 		} else {
 			player.useLeft(false);
 		}
-		
 		if (keys.containsKey(Keys.TAB)) {
 			magicGame.setGamePlay(GamePlay.CRAFT_MENU);
-			keys.remove(Keys.TAB, 0);
+			clearInput();
 		}
+		if (keys.containsKey(Keys.Q)) {
+			player.cycleNextSpell(true);
+		} else {
+			player.cycleNextSpell(false);
+		}
+	}
+	
+	private void clearInput() {
+		keys.clear();
 	}
 }

@@ -22,7 +22,9 @@ public class SpellBuilder {
 		if (actions == null) {
 			actions = new ArrayList<Action>();
 		}
-		actions.add(action);
+		if (action != null) {
+			actions.add(action);
+		}
 		events.put(eventType, actions);
 		return this;
 	}

@@ -43,7 +43,7 @@ public class MagicGame implements ApplicationListener {
 	public ModelInstanceFactory modelAssets;
 	DecalBatch decalBatch;
 	BasicMap map;
-	Player player;
+	public Player player;
 	BodyFactory bodyFactory;
 	public Shader shader;
 	float spinner;
@@ -87,9 +87,9 @@ public class MagicGame implements ApplicationListener {
 	@Override
 	public void render() {
 		if (gamePlay == GamePlay.FIRST_PERSON) {
-			updateAll();
+			updateGamePlay();
 		}
-		renderAll();
+		renderGamePlay();
 		if (gamePlay == GamePlay.CRAFT_MENU) {
 			craftUI.render();
 		}
@@ -106,7 +106,7 @@ public class MagicGame implements ApplicationListener {
 		}
 	}
 	
-	public void updateAll() {
+	public void updateGamePlay() {
 		simulation.update();
 		userInterfaceManager.update();
 		player.entity.update();
@@ -117,7 +117,7 @@ public class MagicGame implements ApplicationListener {
 		lightManager.update();
 	}
 
-	public void renderAll() {
+	public void renderGamePlay() {
 		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 		modelBatch.begin(camera);

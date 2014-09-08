@@ -1,5 +1,6 @@
 package com.sean.game.magic.actions;
 
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.sean.game.factory.FactoryFacade;
@@ -19,5 +20,4 @@ public class ImpulseEntityAction implements Action {
 		Vector2 direction = new Vector2((float)Math.cos(body.getAngle()), (float)Math.sin(body.getAngle()));
 		body.applyLinearImpulse(direction.scl(amount), body.getPosition(), true);
 	}
-	
 }

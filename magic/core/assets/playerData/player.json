@@ -7,7 +7,7 @@
 			"eventActionMappings" : [
 				{
 					"eventType" : "INIT",
-					"actionType" : "CREATE_MAGIC_BALL",
+					"actionType" : "CREATE_BALL",
 					"paramMappings" : [
 						{
 							"name" : "TTL",
@@ -18,14 +18,14 @@
 				},
 				{
 					"eventType" : "CREATE",
-					"actionType" : "IMPULSE_ENTITY",
+					"actionType" : "IMPULSE",
 					"paramMappings" : [
 						
 					]
 				},
 				{
 					"eventType" : "COLLISION",
-					"actionType" : "HURT_PERSON",
+					"actionType" : "HURT",
 					"paramMappings" : [
 						
 					]
@@ -38,7 +38,7 @@
 			"eventActionMappings" : [
 				{
 					"eventType" : "INIT",
-					"actionType" : "CREATE_MAGIC_BALL",
+					"actionType" : "CREATE_BALL",
 					"paramMappings" : [
 						{
 							"name" : "TTL",
@@ -49,7 +49,7 @@
 				},
 				{
 					"eventType" : "CREATE",
-					"actionType" : "IMPULSE_ENTITY",
+					"actionType" : "IMPULSE",
 					"paramMappings" : [
 						
 					]
