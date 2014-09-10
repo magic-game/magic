@@ -32,8 +32,8 @@ public class FactoryFacade {
 		simulation.explosions.add(me);
 	}
 	
-	public Entity createEntity(Vector3 position, Vector3 direction, float ttl) {
-		Entity entity = entityFactory.createEntity(position, direction, ttl);
+	public Entity createEntity(Vector3 position, Vector3 direction, float ttl, float size) {
+		Entity entity = entityFactory.createEntity(position, direction, ttl, size);
 		simulation.entities.add(entity);
 		simulation.decals.add(entity.getDecal());
 		simulation.lightHolders.add(entity.getLightHolder());

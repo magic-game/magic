@@ -102,7 +102,7 @@ public class CraftGroup {
 					return false;
 				}
 			});
-			
+			pos.y -= 40;
 			group.addActor(value);
 		}
 		

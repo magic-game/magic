@@ -1,8 +1,6 @@
 package com.sean.game.magic.actions;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.badlogic.gdx.math.Vector3;
 import com.sean.game.entity.Entity;
@@ -19,10 +17,6 @@ public class CreateMagicBallAction implements Action {
 
 	List<Param> params;
 	
-	public static enum ActionParams {
-		TTL;
-	}
-	
 	public CreateMagicBallAction(List<Param> updatedParams) {
 		this.params = ActionType.CREATE_BALL.getParams();
 		for (Param updatedParam : updatedParams) {
@@ -37,7 +31,9 @@ public class CreateMagicBallAction implements Action {
 	public void perform(Event event, Spell spell, FactoryFacade entityFactory) {
 		Entity source = event.getSource();
 		Vector3 pos = source.getPosition().add(source.getDirection().cpy().scl(source.getBody().getFixtureList().get(0).getShape().getRadius()));
-		final Entity entity = entityFactory.createEntity(pos, source.getDirection(), ParamManager.getFloatParam(ActionParams.TTL.toString(), params));
+		float ttl = ParamManager.getFloatParam("TTL", params);
+		float size = ParamManager.getFloatParam("size", params);
+		final Entity entity = entityFactory.createEntity(pos, source.getDirection(), ttl, size);
 		entity.addListener(spell);
 		spell.handleEvent(getCreateEvent(entity));
 		spell.addEventActionPair(EventType.COLLISION, new Action() {
