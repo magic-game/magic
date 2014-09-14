@@ -13,9 +13,12 @@ public class Player {
 	boolean lockLeft;
 	public PlayerEntity entity;
 	public List<SpellTemplate> spellTemplates;
-	public SpellTemplate currentSpellTemplate;
-	private int currentSpellIndex = 0;
+	public SpellTemplate leftSlotSpell;
+	public SpellTemplate rightSlotSpell;
+	private int leftSlotSpellIndex = 0;
+	private int rightSlotSpellIndex = 0;
 	boolean lockCycle = false;
+	private boolean lockRight = false;
 	
 	public Player(FactoryFacade entityFactory, Vector3 position, Vector3 direction) {
 		this.entityFactory = entityFactory;
@@ -25,13 +28,14 @@ public class Player {
 	
 	public void loadSpellTemplates(String location) {
 		spellTemplates = SpellTemplateLoader.loadSpellTemplatesFile(location);
-		currentSpellTemplate = spellTemplates.get(currentSpellIndex);
+		leftSlotSpell = spellTemplates.get(leftSlotSpellIndex);
+		rightSlotSpell = spellTemplates.get(rightSlotSpellIndex);
 	}
 	
 	public void useLeft(boolean down) {
 		if (down && !lockLeft) {
 			if (entity.energy > 0) {
-				entityFactory.createSpell(entity, currentSpellTemplate);
+				entityFactory.createSpell(entity, leftSlotSpell);
 				entity.energy--;				
 			}
 			lockLeft = true;
@@ -41,17 +45,26 @@ public class Player {
 		}
 	}
 		
-	public void useRight() {
-		
+	public void useRight(boolean down) {
+		if (down && !lockRight) {
+			if (entity.energy > 0) {
+				entityFactory.createSpell(entity, rightSlotSpell);
+				entity.energy--;				
+			}
+			lockRight = true;
+		}
+		if (!down) {
+			lockRight = false;
+		}
 	}
 	
 	public void cycleNextSpell(boolean down) {
 		if (down && !lockCycle) {
-			currentSpellIndex++;
-			if (currentSpellIndex >= spellTemplates.size()) {
-				currentSpellIndex = 0;
+			leftSlotSpellIndex++;
+			if (leftSlotSpellIndex >= spellTemplates.size()) {
+				leftSlotSpellIndex = 0;
 			}
-			currentSpellTemplate = spellTemplates.get(currentSpellIndex);
+			leftSlotSpell = spellTemplates.get(leftSlotSpellIndex);
 			
 //			SpellTemplateLoader.saveSpellTemplates(spellTemplates, "../core/assets/saveTest.json");
 			

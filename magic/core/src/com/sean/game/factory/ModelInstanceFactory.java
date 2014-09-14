@@ -27,6 +27,7 @@ public class ModelInstanceFactory {
 	public Model ceilingModel;
 	public Model magicModel;
 	public Model blenderWallModel;
+	public Model healthModel;
 
 	float s = 1.0f;
 	float hs = 0.5f;
@@ -48,6 +49,7 @@ public class ModelInstanceFactory {
 		UBJsonReader jsonReader = new UBJsonReader();
 		G3dModelLoader modelLoader = new G3dModelLoader(jsonReader);
 		blenderWallModel = modelLoader.loadModel(Gdx.files.getFileHandle("wall.g3db", FileType.Internal));
+		healthModel = modelLoader.loadModel(Gdx.files.getFileHandle("modelData/health.g3db", FileType.Internal));
 	}
 
 	public ModelInstance getFloorInstance(String texture) {
@@ -70,6 +72,12 @@ public class ModelInstanceFactory {
 
 	public ModelInstance getMagicInstance(String texture) {
 		ModelInstance mi = new ModelInstance(magicModel);
+		mi.materials.get(0).set(TextureAttribute.createDiffuse(getTexture(texture)));
+		return mi;
+	}
+	
+	public ModelInstance getModelInstance(Model model, String texture) {
+		ModelInstance mi = new ModelInstance(model);
 		mi.materials.get(0).set(TextureAttribute.createDiffuse(getTexture(texture)));
 		return mi;
 	}

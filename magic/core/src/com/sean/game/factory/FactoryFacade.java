@@ -2,10 +2,13 @@ package com.sean.game.factory;
 
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
+import com.sean.game.LightHolder;
 import com.sean.game.MapSimulation;
 import com.sean.game.entity.Entity;
 import com.sean.game.entity.MagicExplosion;
 import com.sean.game.entity.PlayerEntity;
+import com.sean.game.magic.DelayItem;
+import com.sean.game.magic.Spell;
 import com.sean.game.magic.SpellTemplate;
 
 public class FactoryFacade {
@@ -36,7 +39,10 @@ public class FactoryFacade {
 		Entity entity = entityFactory.createEntity(position, direction, ttl, size);
 		simulation.entities.add(entity);
 		simulation.decals.add(entity.getDecal());
-		simulation.lightHolders.add(entity.getLightHolder());
+		LightHolder lightHolder = entity.getLightHolder();
+		if (lightHolder != null) {
+			simulation.lightHolders.add(lightHolder);
+		}
 		return entity;
 	}
 	
@@ -44,5 +50,9 @@ public class FactoryFacade {
 		PlayerEntity entity = entityFactory.createPlayerEntity(position, direction);
 //		simulation.entities.add(entity);
 		return entity;
+	}
+	
+	public void createDelay(int times, float delay, Spell spell, Entity entity) {
+		simulation.delayItems.add(new DelayItem(times, delay, spell, entity));
 	}
 }

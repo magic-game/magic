@@ -15,6 +15,8 @@ public class BasicMap {
 		this.levels = levels;
 	}
 	
+	
+	
 	public List<Entity> getEntities() {
 		List<Entity> entities = new ArrayList<Entity>();
 		for (Level level : levels) {

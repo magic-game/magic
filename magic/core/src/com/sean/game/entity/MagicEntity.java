@@ -15,7 +15,7 @@ public class MagicEntity extends BasicEntity {
 	}
 	
 	@Override
-	public void update() {
+	public void update(Player player) {
 		ttl = ttl - Gdx.graphics.getDeltaTime();
 		if (ttl < 0) {
 			state = EntityState.DEAD;

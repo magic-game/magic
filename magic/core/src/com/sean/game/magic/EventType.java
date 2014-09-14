@@ -5,7 +5,8 @@ public enum EventType {
 	NONE(CostItem.NONE),
 	COLLISION(CostItem.BLUE_ORB),
 	INIT(CostItem.RED_CRYSTAL),
-	CREATE(CostItem.GREEN_SKULL);
+	CREATE(CostItem.GREEN_SKULL),
+	DELAY(CostItem.NONE);
 	
 	public CostItem costItem;
 	

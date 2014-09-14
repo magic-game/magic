@@ -1,5 +1,7 @@
 package com.sean.game.entity;
 
+import box2dLight.RayHandler;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g3d.decals.Decal;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -10,7 +12,6 @@ import com.sean.game.magic.EventType;
 public class PlayerEntity extends BasicEntity {
 
 	public int health;
-	public int energy;
 	float energyRegeneration = 0.0f;
 	float healthReductionCoolDown = 0.0f;
 
@@ -21,13 +22,13 @@ public class PlayerEntity extends BasicEntity {
 	}
 
 	@Override
-	public void update() {
-		super.update();
-		energyRegeneration += Gdx.graphics.getDeltaTime();
-		if (energyRegeneration > 4.0f && energy < 10) {
-			energy++;
-			energyRegeneration = 0;
-		}
+	public void update(Player player) {
+		super.update(player);
+//		energyRegeneration += Gdx.graphics.getDeltaTime();
+//		if (energyRegeneration > 4.0f && energy < 10) {
+//			energy++;
+//			energyRegeneration = 0;
+//		}
 		if (healthReductionCoolDown > 0) {
 			healthReductionCoolDown = healthReductionCoolDown - Gdx.graphics.getDeltaTime();
 		}

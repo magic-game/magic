@@ -16,21 +16,21 @@ public class BodyFactory {
 	public Body createPersonBody(World world, Vector3 pos) {
 		CircleShape boxShape = new CircleShape();
 		boxShape.setRadius(0.4f);
-		BodyDef boxBodyDef = new BodyDef();
-		boxBodyDef.position.set(pos.x, pos.z);
-		boxBodyDef.angle = MathUtils.PI / 32;
-		boxBodyDef.type = BodyType.DynamicBody;
-		boxBodyDef.fixedRotation = false;
-		Body boxBody = world.createBody(boxBodyDef);
-		FixtureDef boxFixtureDef = new FixtureDef();
-		boxFixtureDef.shape = boxShape;
-		boxFixtureDef.friction = 0f;
-		boxFixtureDef.restitution = 1.0f;
-		boxFixtureDef.density = 10.0f;
-		boxBody.createFixture(boxFixtureDef);
+		BodyDef circleBodyDef = new BodyDef();
+		circleBodyDef.position.set(pos.x, pos.z);
+		circleBodyDef.angle = MathUtils.PI / 32;
+		circleBodyDef.type = BodyType.DynamicBody;
+		circleBodyDef.fixedRotation = false;
+		Body circleBody = world.createBody(circleBodyDef);
+		FixtureDef circleFixtureDef = new FixtureDef();
+		circleFixtureDef.shape = boxShape;
+		circleFixtureDef.friction = 0f;
+		circleFixtureDef.restitution = 1.0f;
+		circleFixtureDef.density = 10.0f;
+		circleBody.createFixture(circleFixtureDef);
 		boxShape.dispose();
-		
-		return boxBody;
+		circleBody.setLinearDamping(1f);
+		return circleBody;
 	}
 	
 	public Body createWallBody(World world, Vector3 pos) {

@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sean.game.magic.actions.CreateMagicBallAction;
-import com.sean.game.magic.actions.HurtPersonAction;
+import com.sean.game.magic.actions.DelayAction;
+import com.sean.game.magic.actions.HealthAction;
 import com.sean.game.magic.actions.ImpulseEntityAction;
 
 public enum ActionType {
@@ -47,12 +48,37 @@ public enum ActionType {
 	HURT {
 		@Override
 		public Action getAction(List<Param> params) {
-			return new HurtPersonAction(params);
+			return new HealthAction(params);
 		}
 		@Override
 		public List<Param> getParams() {
 			List<Param> params = new ArrayList<Param>();
 			params.add(new Param("damage", "1", "Int"));
+			return params;
+		}
+	},
+	HEAL {
+		@Override
+		public Action getAction(List<Param> params) {
+			return new HealthAction(params);
+		}
+		@Override
+		public List<Param> getParams() {
+			List<Param> params = new ArrayList<Param>();
+			params.add(new Param("heal", "1", "Int"));
+			return params;
+		}
+	},
+	DELAY {
+		@Override
+		public Action getAction(List<Param> params) {
+			return new DelayAction(params);
+		}
+		@Override
+		public List<Param> getParams() {
+			List<Param> params = new ArrayList<Param>();
+			params.add(new Param("times", "3", "Int"));
+			params.add(new Param("delay", "1.0", "Float"));
 			return params;
 		}
 	};

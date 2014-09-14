@@ -18,6 +18,7 @@ public class BasicEntity implements Entity {
 	public Vector3 lastPos;
 	public Vector3 lastPosOther;
 	public List<Listener> listeners;
+	public int energy;
 	
 	public BasicEntity(Decal decal, LightHolder lightHolder, Body body) {
 		this.body = body;
@@ -27,11 +28,14 @@ public class BasicEntity implements Entity {
 		lastPos = new Vector3();
 		lastPosOther = new Vector3();
 		this.listeners = new ArrayList<Listener>();
+		this.energy = 0;
 	}
 	
 	@Override
-	public void update() {
-		lightHolder.pos = getPosition();
+	public void update(Player player) {
+		if (lightHolder != null) {
+			lightHolder.pos = getPosition();
+		}
 		decal.setPosition(getPosition());
 		lastPosOther = lastPos;
 		lastPos = getPosition();
@@ -87,5 +91,15 @@ public class BasicEntity implements Entity {
 	@Override
 	public Vector3 getDirection() {
 		return new Vector3((float)Math.cos(body.getAngle()), 0, (float)Math.sin(body.getAngle()));
+	}
+
+	@Override
+	public void addEnergy(int energy) {
+		this.energy = this.energy + energy;
+	}
+
+	@Override
+	public int getEnergy() {
+		return energy;
 	}
 }

@@ -63,8 +63,8 @@ public class MagicGame implements ApplicationListener {
 		modelBatch = new ModelBatch();
 		modelAssets = new ModelInstanceFactory();
 		bodyFactory = new BodyFactory();
-		camera = CameraFactory.createCamera(new Vector3(4, 0, 4));
-		camera.lookAt(10, 0, 4);
+		camera = CameraFactory.createCamera(new Vector3(1, 0, 1));
+		camera.lookAt(1, 0, 4);
 		decalBatch = new DecalBatch();
 		decalBatch.setGroupStrategy(new CameraGroupStrategy(camera));
 		environment = new Environment();
@@ -74,6 +74,7 @@ public class MagicGame implements ApplicationListener {
 		player = new Player(entityFactory, camera.position.cpy(), camera.direction.cpy());
 		input = new UserInput(player, this);
 		Gdx.input.setInputProcessor(input);
+		Gdx.input.setCursorCatched(true);
 		lightManager = new LightManager(simulation, camera);
 		for (BaseLight light : lightManager.lights) {
 			environment.add(light);
@@ -99,17 +100,19 @@ public class MagicGame implements ApplicationListener {
 		if (type == GamePlay.CRAFT_MENU) {
 			gamePlay = type;
 			Gdx.input.setInputProcessor(craftUI.stage);
+			Gdx.input.setCursorCatched(false);
 		}
 		if (type == GamePlay.FIRST_PERSON) {
 			gamePlay = type;
 			Gdx.input.setInputProcessor(input);
+			Gdx.input.setCursorCatched(true);
 		}
 	}
 	
 	public void updateGamePlay() {
-		simulation.update();
+		simulation.update(world, player, entityFactory);
 		userInterfaceManager.update();
-		player.entity.update();
+		player.entity.update(player);
 		world.step(Gdx.graphics.getDeltaTime(), 8, 3);
 		cleanUpBodies();
 		updateCamera();
@@ -143,23 +146,25 @@ public class MagicGame implements ApplicationListener {
 		Array<Body> bodies = new Array<Body>();
 		world.getBodies(bodies);
 		for (Body body : bodies) {
-			Entity data = (Entity) body.getUserData();
-			if (data != null && data.getState() == EntityState.DEAD) {
-				if (data instanceof PersonEntity) {
-					entityFactory.createExplosion(data, new Vector3(1.0f, 0.1f, 0.1f));
-				} else {
-					entityFactory.createExplosion(data, new Vector3(1.0f, 1.0f, 1.0f));
+			if (body.getUserData() instanceof Entity ) {
+				Entity data = (Entity) body.getUserData();
+				if (data != null && data.getState() == EntityState.DEAD) {
+					if (data instanceof PersonEntity) {
+						entityFactory.createExplosion(data, new Vector3(1.0f, 0.1f, 0.1f));
+					} else {
+						entityFactory.createExplosion(data, new Vector3(1.0f, 1.0f, 1.0f));
+					}
+					world.destroyBody(body);
 				}
-				world.destroyBody(body);
 			}
 		}
 	}
 
 	private void updateCamera() {
 		Vector3 pos = player.entity.getPosition();
-		float angle = player.entity.getBody().getAngle();
+//		float angle = player.entity.getBody().getAngle();
 		camera.position.set(new Vector3(pos.x, 0, pos.z));
-		camera.direction.set(new Vector3((float) Math.cos(angle), 0f, (float) Math.sin(angle)));
+//		camera.direction.set(new Vector3((float) Math.cos(angle), 0f, (float) Math.sin(angle)));
 		camera.update();
 	}
 

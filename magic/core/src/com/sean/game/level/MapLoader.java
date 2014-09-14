@@ -13,13 +13,16 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.decals.Decal;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
 import com.sean.game.LightHolder;
 import com.sean.game.MagicConstants;
+import com.sean.game.entity.EnergyPickupEntity;
 import com.sean.game.entity.Entity;
 import com.sean.game.entity.PersonEntity;
+import com.sean.game.entity.HealthPickupEntity;
 import com.sean.game.factory.BodyFactory;
 import com.sean.game.factory.ModelInstanceFactory;
 import com.sean.game.level.json.MapTile;
@@ -85,7 +88,8 @@ public class MapLoader {
 					}
 					if (mapTile.model.equals("Wall")) {
 						tile.models.add(modelAssets.getWallInstance(mapTile.texture));
-						bodyFactory.createWallBody(world, tile.pos);
+						Body wallBody = bodyFactory.createWallBody(world, tile.pos);
+						wallBody.setUserData(tile);
 					}
 				}
 				if (template.light != null) {
@@ -98,6 +102,26 @@ public class MapLoader {
 						Decal decal = Decal.newDecal(0.8f, 0.8f, new TextureRegion(image), true);
 						decal.setPosition(tile.pos);
 						Entity e = new PersonEntity(bodyFactory.createPersonBody(world, tile.pos), decal, tile.lightHolder, template.entity.health);
+						e.getBody().setUserData(e);
+						tile.entity = e;
+					}
+					if (template.entity.type.equals("healthPickup")) {
+						Texture image = new Texture(Gdx.files.internal(template.entity.image));
+						float size = 0.3f;
+						Decal decal = Decal.newDecal(size, size, new TextureRegion(image), true);
+						decal.setPosition(tile.pos);
+						Body pickupBody = BodyFactory.createEntityBody(world, tile.pos, 0, size / 2.0f, 1, 0.5f);
+						Entity e = new HealthPickupEntity(decal, tile.lightHolder, pickupBody, template.entity.amount);
+						e.getBody().setUserData(e);
+						tile.entity = e;
+					}
+					if (template.entity.type.equals("energyPickup")) {
+						Texture image = new Texture(Gdx.files.internal(template.entity.image));
+						float size = 0.3f;
+						Decal decal = Decal.newDecal(size, size, new TextureRegion(image), true);
+						decal.setPosition(tile.pos);
+						Body pickupBody = BodyFactory.createEntityBody(world, tile.pos, 0, size / 2.0f, 1, 0.5f);
+						Entity e = new EnergyPickupEntity(decal, tile.lightHolder, pickupBody, template.entity.amount);
 						e.getBody().setUserData(e);
 						tile.entity = e;
 					}
