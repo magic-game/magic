@@ -1,4 +1,3 @@
 magic
-=====
 
 the game
