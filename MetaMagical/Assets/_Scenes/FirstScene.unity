@@ -736,6 +736,7 @@ Transform:
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
+  - {fileID: 1882342774}
   - {fileID: 1431524664}
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -2022,7 +2023,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 6
   m_Type: 2
-  m_Color: {r: 1, g: 0.93995947, b: 0.45588237, a: 1}
+  m_Color: {r: 0.6876268, g: 1, b: 0.43382353, a: 1}
   m_Intensity: 2.71
   m_Range: 30
   m_SpotAngle: 30
@@ -2291,7 +2292,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400034, guid: 6d1ce64d0a9668841894276ee5ba971b, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400034, guid: 6d1ce64d0a9668841894276ee5ba971b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -2875,12 +2876,12 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1882342773}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.22, y: 0.22, z: -0}
+  m_LocalPosition: {x: 0.07, y: 1.63, z: 1.04}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
-  m_Father: {fileID: 1431524664}
-  m_RootOrder: 2
+  m_Father: {fileID: 486094461}
+  m_RootOrder: 0
 --- !u!108 &1882342775
 Light:
   m_ObjectHideFlags: 0
@@ -2890,9 +2891,9 @@ Light:
   m_Enabled: 1
   serializedVersion: 6
   m_Type: 2
-  m_Color: {r: 0.99264705, g: 0.6350525, b: 0.18247189, a: 1}
-  m_Intensity: 5.24
-  m_Range: 10
+  m_Color: {r: 1, g: 0.22794116, b: 0.53144026, a: 1}
+  m_Intensity: 4.38
+  m_Range: 5
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
