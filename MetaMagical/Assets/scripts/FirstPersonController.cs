@@ -3,12 +3,13 @@ using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 using UnityStandardAssets.Utility;
 using Random = UnityEngine.Random;
+using MagicEngine;
 
 namespace UnityStandardAssets.Characters.FirstPerson
 {
     [RequireComponent(typeof (CharacterController))]
     [RequireComponent(typeof (AudioSource))]
-    public class FirstPersonController : MonoBehaviour
+    public class FirstPersonController : MonoBehaviour, MagicEntity
     {
         [SerializeField] private bool m_IsWalking;
         [SerializeField] private float m_WalkSpeed;
@@ -41,6 +42,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private float m_NextStep;
         private bool m_Jumping;
         private AudioSource m_AudioSource;
+		private Rigidbody rb;
+
+		public SpellPool spellPool;
+		public FireBallTemplate template;
+		public GameObject spellBall;
 
         // Use this for initialization
         private void Start()
@@ -55,6 +61,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_Jumping = false;
             m_AudioSource = GetComponent<AudioSource>();
 			m_MouseLook.Init(transform , m_Camera.transform);
+			rb = GetComponent<Rigidbody>();
+			template = new FireBallTemplate (spellBall);
         }
 
 
@@ -231,6 +239,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 StopAllCoroutines();
                 StartCoroutine(!m_IsWalking ? m_FovKick.FOVKickUp() : m_FovKick.FOVKickDown());
             }
+
+			bool isLeftClick = Input.GetMouseButtonDown (0);
+			if (isLeftClick) {
+				spellPool.CastSpell (template);
+			}
         }
 
 
@@ -255,5 +268,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
             body.AddForceAtPosition(m_CharacterController.velocity*0.1f, hit.point, ForceMode.Impulse);
         }
+
+		public Transform getTransform() {
+			return m_Camera.transform;
+		}
+
+		public Rigidbody getRigidbody() {
+			return rb;
+		}
     }
 }
