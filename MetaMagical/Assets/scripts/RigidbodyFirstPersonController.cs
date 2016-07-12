@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 using MagicEngine;
 using UnityStandardAssets.Characters.FirstPerson;
+using AssemblyCSharp;
 
 
 [RequireComponent(typeof (Rigidbody))]
@@ -279,5 +280,19 @@ public class RigidbodyFirstPersonController : MonoBehaviour, MagicEntity
 
 	public Rigidbody getRigidbody() {
 		return m_RigidBody;
+	}
+
+	public void AddEventListener(SpellEventListener listener) {
+		//listeners.Add (listener);
+	}
+
+	private void sendEvent(SpellEventType type) {
+		//foreach (SpellEventListener listener in listeners) {
+			//listener.HandleEvent (type, this);
+		//}
+	}
+
+	public void takeDamage(int amount) {
+		//health = health - amount;
 	}
 }

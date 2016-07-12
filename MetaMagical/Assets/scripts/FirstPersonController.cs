@@ -4,6 +4,8 @@ using UnityStandardAssets.CrossPlatformInput;
 using UnityStandardAssets.Utility;
 using Random = UnityEngine.Random;
 using MagicEngine;
+using AssemblyCSharp;
+using System.Collections.Generic;
 
 namespace UnityStandardAssets.Characters.FirstPerson
 {
@@ -48,9 +50,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
 		public FireBallTemplate template;
 		public GameObject spellBall;
 
+		private List<SpellEventListener> listeners;
+		private int health;
+
         // Use this for initialization
         private void Start()
         {
+			health = 1;
             m_CharacterController = GetComponent<CharacterController>();
             m_Camera = Camera.main;
             m_OriginalCameraPosition = m_Camera.transform.localPosition;
@@ -63,6 +69,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 			m_MouseLook.Init(transform , m_Camera.transform);
 			rb = GetComponent<Rigidbody>();
 			template = new FireBallTemplate (spellBall);
+			listeners = new List<SpellEventListener> ();
         }
 
 
@@ -89,8 +96,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
 
             m_PreviouslyGrounded = m_CharacterController.isGrounded;
-        }
 
+			if (health <= 0) {
+				//Destroy (gameObject);
+			}
+        }
 
         private void PlayLandingSound()
         {
@@ -275,6 +285,20 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
 		public Rigidbody getRigidbody() {
 			return rb;
+		}
+
+		public void AddEventListener(SpellEventListener listener) {
+			listeners.Add (listener);
+		}
+
+		private void sendEvent(SpellEventType type) {
+			foreach (SpellEventListener listener in listeners) {
+				listener.HandleEvent (type, this);
+			}
+		}
+
+		public void takeDamage(int amount) {
+			health = health - amount;
 		}
     }
 }

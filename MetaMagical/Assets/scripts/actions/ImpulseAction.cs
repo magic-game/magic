@@ -20,18 +20,11 @@ public class ImpulseAction : MonoBehaviour, SpellAction
 		
 	}
 
-	public MagicEntity perform(MagicEntity entity) {
-		Debug.Log ("doing impulse action");
+	public void perform(MagicEntity entity, Spell spell) {
 		Transform transform = entity.getTransform ();
-		//transform.Translate(transform.forward * speed * Time.deltaTime);
 		Rigidbody rb = entity.getRigidbody ();
-		//rb.AddForce (transform.forward * speed);
 		rb.AddForce(transform.forward * speed, ForceMode.Impulse);
-		return entity;
-	}
-
-	public SpellEventType getEvent() {
-		return SpellEventType.Impulse;
+		spell.handleEvent (new SpellEvent (SpellEventType.Impulse, entity));
 	}
 }
 

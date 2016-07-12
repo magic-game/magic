@@ -15,7 +15,6 @@ public class Spell : MonoBehaviour {
 		ttl = spellTemplate.getTimeToLive();
 		links = new List<Link> ();
 		links.AddRange (spellTemplate.getLinks());
-		Debug.Log ("made spell", this);
 	}
 
 	// Update is called once per frame
@@ -25,7 +24,7 @@ public class Spell : MonoBehaviour {
 		queueEvents.AddRange (nextEvents);
 		nextEvents.Clear ();
 		foreach (SpellEvent ev in queueEvents) {
-			this.handleEvent (ev);
+			this.processEvent (ev);
 		}
 	}
 
@@ -34,13 +33,15 @@ public class Spell : MonoBehaviour {
 	}
 
 	public void handleEvent(SpellEvent spellEvent) {
-		Debug.Log ("caught event", spellEvent);
+		nextEvents.Add (spellEvent);
+	}
+
+	private void processEvent(SpellEvent spellEvent) {
 		foreach (Link link in links) {
 			if (link.spellEventType.Equals(spellEvent.spellEventType)) {
-				Debug.Log ("matched event");
-				MagicEntity nextEntity = link.spellAction.perform (spellEvent.magicEntity);
-				nextEvents.Add (new SpellEvent (link.spellAction.getEvent (), nextEntity));
+				link.spellAction.perform (spellEvent.magicEntity, this);
 			}
 		}
 	}
+
 }

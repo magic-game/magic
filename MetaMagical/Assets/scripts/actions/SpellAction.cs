@@ -3,6 +3,5 @@ using MagicEngine;
 
 public interface SpellAction
 {
-	MagicEntity perform(MagicEntity entity);
-	SpellEventType getEvent();
+	void perform(MagicEntity entity, Spell spell);
 }

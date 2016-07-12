@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using AssemblyCSharp;
 
 namespace MagicEngine
 {
@@ -7,5 +8,7 @@ namespace MagicEngine
 	{
 		Transform getTransform();
 		Rigidbody getRigidbody();
+		void AddEventListener(SpellEventListener listener);
+		void takeDamage(int amount);
 	}
 }

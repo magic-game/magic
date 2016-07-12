@@ -5,6 +5,9 @@ public enum SpellEventType
 	Cast,
 	Creation,
 	Collision,
-	Impulse
+	Impulse,
+	AddListener,
+	Destroy,
+	Hurt
 }
 

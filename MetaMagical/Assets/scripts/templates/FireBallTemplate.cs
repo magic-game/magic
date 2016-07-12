@@ -15,12 +15,26 @@ public class FireBallTemplate : SpellTemplate
 		link.spellEventType = SpellEventType.Cast;
 		CreateEntityAction createEntityAction = new CreateEntityAction (spellBall);
 		link.spellAction = createEntityAction;
+
 		Link link2 = new Link ();
 		link2.spellEventType = SpellEventType.Creation;
-		ImpulseAction createEntityAction2 = new ImpulseAction (8.0f);
+		ImpulseAction createEntityAction2 = new ImpulseAction (24.0f);
 		link2.spellAction = createEntityAction2;
+
+		Link link3 = new Link ();
+		link3.spellEventType = SpellEventType.Creation;
+		AddListenerAction listenAction = new AddListenerAction (SpellEventType.Collision);
+		link3.spellAction = listenAction;
+
+		Link link4 = new Link ();
+		link4.spellEventType = SpellEventType.Collision;
+		DamageAction destroyAction = new DamageAction (1);
+		link4.spellAction = destroyAction;
+
 		links.Add (link);
 		links.Add (link2);
+		links.Add (link3);
+		links.Add (link4);
 	}
 
 	public List<Link> getLinks() {
