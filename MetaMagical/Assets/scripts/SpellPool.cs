@@ -22,11 +22,16 @@ public class SpellPool : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+		Spell destroyedSpell = null;
 		foreach (Spell spell in spells) {
 			spell.Update ();
 			if (!spell.IsAlive()) {
-				spells.Remove (spell);
+				destroyedSpell = spell;
 			}
+		}
+		if (destroyedSpell != null) {
+			spells.Remove (destroyedSpell);
+			Destroy (destroyedSpell);
 		}
     }
 

@@ -47,8 +47,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
 		private Rigidbody rb;
 
 		public SpellPool spellPool;
-		public FireBallTemplate template;
+		public SpellTemplate template;
 		public GameObject spellBall;
+		public int energy;
 
 		private List<SpellEventListener> listeners;
 		private int health;
@@ -57,6 +58,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private void Start()
         {
 			health = 1;
+			energy = 100;
             m_CharacterController = GetComponent<CharacterController>();
             m_Camera = Camera.main;
             m_OriginalCameraPosition = m_Camera.transform.localPosition;
@@ -68,7 +70,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_AudioSource = GetComponent<AudioSource>();
 			m_MouseLook.Init(transform , m_Camera.transform);
 			rb = GetComponent<Rigidbody>();
-			template = new FireBallTemplate (spellBall);
+			//template = new FireBallTemplate (spellBall);
+			template = new LightTemplate(spellBall);
 			listeners = new List<SpellEventListener> ();
         }
 
@@ -252,7 +255,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
 			bool isLeftClick = Input.GetMouseButtonDown (0);
 			if (isLeftClick) {
-				spellPool.CastSpell (template);
+				if (energy > 0) {
+					spellPool.CastSpell (template);
+					energy = energy - 5;
+				}
 			}
         }
 

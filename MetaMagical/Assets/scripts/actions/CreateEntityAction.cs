@@ -29,6 +29,7 @@ public class CreateEntityAction : MonoBehaviour, SpellAction
 		GameObject obj = (GameObject) Instantiate (spellBall, transform.position + transform.forward*(2.0f), transform.rotation);
 		MonoBehaviour[] monos = obj.GetComponents<MonoBehaviour> ();
 		BallFabScript script = obj.GetComponent<BallFabScript> ();
+		script.setTimeToLive (spell.ttl);
 		spell.handleEvent (new SpellEvent (SpellEventType.Creation, script));
 	}
 }

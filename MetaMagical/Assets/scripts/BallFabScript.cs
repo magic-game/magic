@@ -3,6 +3,7 @@ using System.Collections;
 using MagicEngine;
 using AssemblyCSharp;
 using System.Collections.Generic;
+using UnityStandardAssets.Characters.FirstPerson;
 
 public class BallFabScript : MonoBehaviour, MagicEntity
 {
@@ -11,6 +12,7 @@ public class BallFabScript : MonoBehaviour, MagicEntity
 	private List<SpellEventListener> listeners;
 	int health;
 	public GameObject explosionPrefab;
+	private float ttl;
 
 	// Use this for initialization
 	void Start ()
@@ -24,6 +26,11 @@ public class BallFabScript : MonoBehaviour, MagicEntity
 	void Update ()
 	{
 		transform.LookAt(Camera.main.transform.position, Vector3.up);
+		ttl = ttl - Time.deltaTime;
+		if (ttl < 0) {
+			Debug.Log ("dead ttl " + ttl);
+			health = 0;
+		}
 		if (health <= 0) {
 			Instantiate (explosionPrefab, transform.position, Quaternion.identity);
 			Destroy (gameObject);
@@ -58,6 +65,11 @@ public class BallFabScript : MonoBehaviour, MagicEntity
 
 	public void takeDamage(int amount) {
 		health = health - amount;
+	}
+
+	public void setTimeToLive(float ttl) {
+		Debug.Log ("setting ttl " + ttl);
+		this.ttl = ttl;
 	}
 }
 
