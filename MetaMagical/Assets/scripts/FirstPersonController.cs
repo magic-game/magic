@@ -70,8 +70,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_AudioSource = GetComponent<AudioSource>();
 			m_MouseLook.Init(transform , m_Camera.transform);
 			rb = GetComponent<Rigidbody>();
-			//template = new FireBallTemplate (spellBall);
-			template = new LightTemplate(spellBall);
+			template = new FireBallTemplate (spellBall);
+			//template = new LightTemplate(spellBall);
 			listeners = new List<SpellEventListener> ();
         }
 
@@ -257,7 +257,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 			if (isLeftClick) {
 				if (energy > 0) {
 					spellPool.CastSpell (template);
-					energy = energy - 5;
+					energy = energy - 3;
 				}
 			}
         }

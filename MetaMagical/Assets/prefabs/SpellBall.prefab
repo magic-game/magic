@@ -59,7 +59,7 @@ Transform:
   m_GameObject: {fileID: 193076}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: -0.00000016292068}
   m_LocalPosition: {x: 0, y: 0.816, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 3}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_Children: []
   m_Father: {fileID: 428442}
@@ -151,7 +151,7 @@ Light:
   m_Type: 2
   m_Color: {r: 0, g: 0.7931032, b: 1, a: 1}
   m_Intensity: 8
-  m_Range: 4
+  m_Range: 12
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:

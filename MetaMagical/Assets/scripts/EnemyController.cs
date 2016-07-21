@@ -14,6 +14,7 @@ public class EnemyController : MonoBehaviour, MagicEntity {
 	Rigidbody rb;
 	private List<SpellEventListener> listeners;
 	int health;
+	public int attackRange;
 
 	// Use this for initialization
 	void Start ()
@@ -35,7 +36,9 @@ public class EnemyController : MonoBehaviour, MagicEntity {
 
     void Update()
     {
-        nav.SetDestination(player.position);
+		if (Vector3.Distance(player.position, transform.position) < attackRange) {
+			nav.SetDestination(player.position);
+		}
         nav.speed = 3 + ((Mathf.Sin(Time.time * 2.2f) * 2));
 		if (health <= 0) {
 			Destroy (gameObject);

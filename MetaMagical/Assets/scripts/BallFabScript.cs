@@ -13,6 +13,10 @@ public class BallFabScript : MonoBehaviour, MagicEntity
 	int health;
 	public GameObject explosionPrefab;
 	private float ttl;
+	private bool dying = false;
+	private float dyingTimer = 3.0f;
+	private Light light;
+	private Transform quad;
 
 	// Use this for initialization
 	void Start ()
@@ -20,6 +24,8 @@ public class BallFabScript : MonoBehaviour, MagicEntity
 		health = 1;
 		rb = GetComponent<Rigidbody> ();
 		listeners = new List<SpellEventListener> ();
+		light = GetComponentInChildren<Light> ();
+		quad = transform.GetChild (1);
 	}
 	
 	// Update is called once per frame
@@ -32,8 +38,21 @@ public class BallFabScript : MonoBehaviour, MagicEntity
 			health = 0;
 		}
 		if (health <= 0) {
-			Instantiate (explosionPrefab, transform.position, Quaternion.identity);
-			Destroy (gameObject);
+			//Instantiate (explosionPrefab, transform.position, Quaternion.identity);
+			dying = true;
+			//Destroy (gameObject);
+		}
+		if (dying) {
+			dyingTimer = dyingTimer - Time.deltaTime;
+			if (light != null) {
+				light.intensity = 3.0f * dyingTimer;
+			}
+			if (quad != null) {
+				quad.localScale -= new Vector3(Time.deltaTime, Time.deltaTime, Time.deltaTime);
+			}
+			if (dyingTimer < 0) {
+				Destroy (gameObject);
+			}
 		}
 	}
 
