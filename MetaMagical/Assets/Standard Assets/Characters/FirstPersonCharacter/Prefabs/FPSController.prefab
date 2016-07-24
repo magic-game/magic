@@ -294,6 +294,7 @@ MonoBehaviour:
   energy: 100
   health: 12
   maxHealth: 16
+  startCastCooldown: 0.2
 --- !u!124 &12474086
 Behaviour:
   m_ObjectHideFlags: 1

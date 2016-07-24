@@ -54,12 +54,15 @@ namespace UnityStandardAssets.Characters.FirstPerson
 		private List<SpellEventListener> listeners;
 		public float health;
 		public float maxHealth;
+		private float castCooldown;
+		public float startCastCooldown;
 
         // Use this for initialization
         private void Start()
         {
 			health = 12;
 			energy = 100;
+			castCooldown = 0;
             m_CharacterController = GetComponent<CharacterController>();
             m_Camera = Camera.main;
             m_OriginalCameraPosition = m_Camera.transform.localPosition;
@@ -153,6 +156,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
             UpdateCameraPosition(speed);
 
             m_MouseLook.UpdateCursorLock();
+
+
         }
 
 
@@ -254,14 +259,23 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 StartCoroutine(!m_IsWalking ? m_FovKick.FOVKickUp() : m_FovKick.FOVKickDown());
             }
 
-			bool isLeftClick = Input.GetMouseButtonDown (0);
-			if (isLeftClick) {
+			updateCasting ();
+        }
+
+		private void updateCasting() {
+			if (castCooldown > 0) {
+				castCooldown = castCooldown - Time.deltaTime;
+			}
+
+			bool isLeftClick = Input.GetMouseButton (0);
+			if (isLeftClick && castCooldown <= 0) {
 				if (energy > 0) {
 					spellPool.CastSpell (template);
 					energy = energy - 3;
+					castCooldown = startCastCooldown;
 				}
 			}
-        }
+		}
 
 
         private void RotateView()
