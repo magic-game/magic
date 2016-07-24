@@ -55,8 +55,8 @@ public class BallFabScript : MonoBehaviour, MagicEntity
 		}
 	}
 
-	public Transform getTransform() {
-		return this.transform;
+	public Place getPlace() {
+		return new Place(this.transform);
 	}
 
 	public Rigidbody getRigidbody() {
@@ -67,6 +67,10 @@ public class BallFabScript : MonoBehaviour, MagicEntity
 		MagicEntity ent = col.gameObject.GetComponent<EnemyController> ();
 		if (ent != null) {
 			this.sendEvent (SpellEventType.Collision, ent);
+		}
+		MagicEntity platerent = col.gameObject.GetComponent<FirstPersonController > ();
+		if (platerent != null) {
+			this.sendEvent (SpellEventType.Collision, platerent);
 		}
 		takeDamage (1);
 	}

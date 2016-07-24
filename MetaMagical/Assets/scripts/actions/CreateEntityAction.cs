@@ -24,9 +24,9 @@ public class CreateEntityAction : MonoBehaviour, SpellAction
 	}
 
 	public void perform(MagicEntity magicEntity, Spell spell) {
-		Transform transform = magicEntity.getTransform ();
+		Place place = magicEntity.getPlace ();
 		// TODO use the sclae of the spell ball and magic entity 
-		GameObject obj = (GameObject) Instantiate (spellBall, transform.position + transform.forward*(2.0f), transform.rotation);
+		GameObject obj = (GameObject) Instantiate (spellBall, place.position + place.forward*(2.0f), place.rotation);
 		MonoBehaviour[] monos = obj.GetComponents<MonoBehaviour> ();
 		BallFabScript script = obj.GetComponent<BallFabScript> ();
 		script.setTimeToLive (spell.ttl);

@@ -6,7 +6,7 @@ namespace MagicEngine
 {
 	public interface MagicEntity
 	{
-		Transform getTransform();
+		Place getPlace();
 		Rigidbody getRigidbody();
 		void AddEventListener(SpellEventListener listener);
 		void takeDamage(int amount);

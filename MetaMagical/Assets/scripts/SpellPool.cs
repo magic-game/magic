@@ -35,9 +35,9 @@ public class SpellPool : MonoBehaviour
 		}
     }
 
-	public void CastSpell(SpellTemplate spellTemplate) {
+	public void CastSpell(SpellTemplate spellTemplate, MagicEntity entity) {
 		Spell spell = new Spell(spellTemplate);
 		spells.Add (spell);
-		spell.handleEvent (new SpellEvent(SpellEventType.Cast, player));
+		spell.handleEvent (new SpellEvent(SpellEventType.Cast, entity));
 	}
 }

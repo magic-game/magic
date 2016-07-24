@@ -21,9 +21,9 @@ public class ImpulseAction : MonoBehaviour, SpellAction
 	}
 
 	public void perform(MagicEntity entity, Spell spell) {
-		Transform transform = entity.getTransform ();
+		Place place = entity.getPlace ();
 		Rigidbody rb = entity.getRigidbody ();
-		rb.AddForce(transform.forward * speed, ForceMode.Impulse);
+		rb.AddForce(place.forward * speed, ForceMode.Impulse);
 		spell.handleEvent (new SpellEvent (SpellEventType.Impulse, entity));
 	}
 }

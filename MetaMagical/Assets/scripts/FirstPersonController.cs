@@ -270,7 +270,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 			bool isLeftClick = Input.GetMouseButton (0);
 			if (isLeftClick && castCooldown <= 0) {
 				if (energy > 0) {
-					spellPool.CastSpell (template);
+					spellPool.CastSpell (template, this);
 					energy = energy - 3;
 					castCooldown = startCastCooldown;
 				}
@@ -300,8 +300,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
             body.AddForceAtPosition(m_CharacterController.velocity*0.1f, hit.point, ForceMode.Impulse);
         }
 
-		public Transform getTransform() {
-			return m_Camera.transform;
+		public Place getPlace() {
+			return new Place( m_Camera.transform);
 		}
 
 		public Rigidbody getRigidbody() {
@@ -319,6 +319,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 		}
 
 		public void takeDamage(int amount) {
+			Debug.Log ("tookk damage");
 			health = health - amount;
 		}
     }

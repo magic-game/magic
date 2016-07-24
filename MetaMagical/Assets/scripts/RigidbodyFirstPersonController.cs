@@ -194,7 +194,7 @@ public class RigidbodyFirstPersonController : MonoBehaviour, MagicEntity
 
 		bool isLeftClick = Input.GetMouseButtonDown (0);
 		if (isLeftClick) {
-			spellPool.CastSpell (template);
+			spellPool.CastSpell (template, this);
 		}
     }
 
@@ -274,8 +274,8 @@ public class RigidbodyFirstPersonController : MonoBehaviour, MagicEntity
         }
     }
 
-	public Transform getTransform() {
-		return transform;
+	public Place getPlace() {
+		return new Place(transform);
 	}
 
 	public Rigidbody getRigidbody() {
