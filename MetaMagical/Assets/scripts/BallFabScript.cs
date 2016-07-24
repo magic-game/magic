@@ -34,7 +34,6 @@ public class BallFabScript : MonoBehaviour, MagicEntity
 		transform.LookAt(Camera.main.transform.position, Vector3.up);
 		ttl = ttl - Time.deltaTime;
 		if (ttl < 0) {
-			Debug.Log ("dead ttl " + ttl);
 			health = 0;
 		}
 		if (health <= 0) {
@@ -87,7 +86,6 @@ public class BallFabScript : MonoBehaviour, MagicEntity
 	}
 
 	public void setTimeToLive(float ttl) {
-		Debug.Log ("setting ttl " + ttl);
 		this.ttl = ttl;
 	}
 }

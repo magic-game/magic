@@ -15,11 +15,12 @@ public class EnemyController : MonoBehaviour, MagicEntity {
 	private List<SpellEventListener> listeners;
 	int health;
 	public int attackRange;
+	public GameObject explosionPrefab;
 
 	// Use this for initialization
 	void Start ()
 	{
-		health = 1;
+		health = 2;
 		rb = GetComponent<Rigidbody> ();
 		listeners = new List<SpellEventListener> ();
 	}
@@ -41,6 +42,7 @@ public class EnemyController : MonoBehaviour, MagicEntity {
 		}
         nav.speed = 3 + ((Mathf.Sin(Time.time * 2.2f) * 2));
 		if (health <= 0) {
+			Instantiate (explosionPrefab, transform.position, Quaternion.identity);
 			Destroy (gameObject);
 		}
     }
