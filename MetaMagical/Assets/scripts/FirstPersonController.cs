@@ -52,12 +52,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
 		public int energy;
 
 		private List<SpellEventListener> listeners;
-		private int health;
+		public float health;
+		public float maxHealth;
 
         // Use this for initialization
         private void Start()
         {
-			health = 1;
+			health = 12;
 			energy = 100;
             m_CharacterController = GetComponent<CharacterController>();
             m_Camera = Camera.main;

@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.UI;
 using UnityStandardAssets.Characters.FirstPerson;
 
-public class HealthBar : MonoBehaviour {
+public class EnergyBar : MonoBehaviour {
 
 	public GameObject player;
 	public Slider slider;
@@ -11,7 +11,7 @@ public class HealthBar : MonoBehaviour {
 	void Start () {
 		slider = GetComponentInChildren<Slider> ();
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 		slider.value = player.GetComponent<FirstPersonController> ().energy;
