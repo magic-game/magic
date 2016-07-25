@@ -31,10 +31,15 @@ public class EnemyController : MonoBehaviour, MagicEntity {
 
 	public float turnSpeed;
 
+	private Vector3 destination;
+	private float wanderTimer;
+	private float wanderTimerLength = 3.0f;
+
 	// Use this for initialization
 	void Start ()
 	{
 		health = 2;
+		wanderTimer = wanderTimerLength;
 		rb = GetComponent<Rigidbody> ();
 		listeners = new List<SpellEventListener> ();
 		lastPlayerSighting = transform.position;
@@ -77,11 +82,33 @@ public class EnemyController : MonoBehaviour, MagicEntity {
 			}
 		}
 		if (!inAttackRange) {
-			nav.SetDestination (lastPlayerSighting);
+			if (wanderTimer > 0) {
+				wanderTimer = wanderTimer - Time.deltaTime;
+			} else {
+				wanderTimer = Random.Range(0, 5.0f);
+				destination = randomNavMeshPoint (transform.position);
+			}
+			//nav.SetDestination (lastPlayerSighting);
+			nav.SetDestination(destination);
+
 		} else {
 			nav.SetDestination (transform.position);
+			destination = player.position;
+			wanderTimer = 3.0f;
 		}
 	}
+
+	private Vector3 randomNavMeshPoint(Vector3 sauce) {
+		for (int i = 0; i < 20; i++) {
+			Vector3 randomPoint = sauce + Random.insideUnitSphere * 10.0f;
+			NavMeshHit hit;
+			if (NavMesh.SamplePosition (randomPoint, out hit, 1.0f, NavMesh.AllAreas)) {
+				return randomPoint;
+			}
+		}
+		return sauce;
+	}
+
 
 	private void lookTowardPlayer() {
 		Vector3 direction = (lastPlayerSighting - transform.position).normalized;

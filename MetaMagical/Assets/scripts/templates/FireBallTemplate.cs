@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class FireBallTemplate : SpellTemplate
 {
 	public List<Link> links;
-	public float ttl = 100.0f;
+	public float ttl = 10.0f;
 
 	// Use this for initialization
 	public FireBallTemplate (GameObject spellBall)
@@ -18,7 +18,7 @@ public class FireBallTemplate : SpellTemplate
 
 		Link link2 = new Link ();
 		link2.spellEventType = SpellEventType.Creation;
-		ImpulseAction createEntityAction2 = new ImpulseAction (24.0f);
+		ImpulseAction createEntityAction2 = new ImpulseAction (48.0f);
 		link2.spellAction = createEntityAction2;
 
 		Link link3 = new Link ();
