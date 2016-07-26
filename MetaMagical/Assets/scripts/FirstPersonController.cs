@@ -57,6 +57,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
 		private float castCooldown;
 		public float startCastCooldown;
 
+		public DamageFlashController damageFlashController;
+
         // Use this for initialization
         private void Start()
         {
@@ -321,6 +323,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 		public void takeDamage(int amount) {
 			Debug.Log ("tookk damage");
 			health = health - amount;
+			damageFlashController.takeDamage ();
 		}
     }
 }

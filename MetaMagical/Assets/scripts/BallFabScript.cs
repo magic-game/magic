@@ -14,7 +14,7 @@ public class BallFabScript : MonoBehaviour, MagicEntity
 	public GameObject explosionPrefab;
 	private float ttl;
 	private bool dying = false;
-	private float dyingTimer = 3.0f;
+	private float dyingTimer = 2.0f;
 	private Light light;
 	private Transform quad;
 	private Transform sphere;
@@ -46,13 +46,13 @@ public class BallFabScript : MonoBehaviour, MagicEntity
 		if (dying) {
 			dyingTimer = dyingTimer - Time.deltaTime;
 			if (light != null) {
-				light.intensity = 3.0f * dyingTimer;
+				light.intensity = 4.0f * dyingTimer;
 			}
 			if (quad != null) {
 				quad.localScale -= new Vector3(Time.deltaTime, Time.deltaTime, Time.deltaTime);
 			}
 			if (sphere != null) {
-				float ratio = Time.deltaTime / 6.0f;
+				float ratio = Time.deltaTime / 4.0f;
 				sphere.localScale -= new Vector3(ratio, ratio, ratio);
 			}
 			if (dyingTimer < 0) {
@@ -70,6 +70,7 @@ public class BallFabScript : MonoBehaviour, MagicEntity
 	}
 
 	void OnCollisionEnter (Collision col) {
+		Instantiate (explosionPrefab, transform.position, Quaternion.identity);
 		MagicEntity ent = col.gameObject.GetComponent<EnemyController> ();
 		if (ent != null) {
 			this.sendEvent (SpellEventType.Collision, ent);
