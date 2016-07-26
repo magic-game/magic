@@ -49,13 +49,15 @@ namespace UnityStandardAssets.Characters.FirstPerson
 		public SpellPool spellPool;
 		public SpellTemplate template;
 		public GameObject spellBall;
-		public int energy;
+		public float energy;
 
 		private List<SpellEventListener> listeners;
 		public float health;
 		public float maxHealth;
 		private float castCooldown;
 		public float startCastCooldown;
+		private float energyRegenerationRate = 1.0f;
+		public float maxEnergy;
 
 		public DamageFlashController damageFlashController;
 
@@ -108,6 +110,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
 			if (health <= 0) {
 				//Destroy (gameObject);
+			}
+
+			if (energy < maxEnergy) {
+				energy += energyRegenerationRate * Time.deltaTime;
 			}
         }
 
@@ -271,6 +277,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
 			bool isLeftClick = Input.GetMouseButton (0);
 			if (isLeftClick && castCooldown <= 0) {
+				if (energy <= 0 && health > 0) {
+					takeDamage (3);
+					energy += 3;
+				} 
 				if (energy > 0) {
 					spellPool.CastSpell (template, this);
 					energy = energy - 3;
