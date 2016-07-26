@@ -17,6 +17,7 @@ public class BallFabScript : MonoBehaviour, MagicEntity
 	private float dyingTimer = 3.0f;
 	private Light light;
 	private Transform quad;
+	private Transform sphere;
 
 	// Use this for initialization
 	void Start ()
@@ -26,6 +27,7 @@ public class BallFabScript : MonoBehaviour, MagicEntity
 		listeners = new List<SpellEventListener> ();
 		light = GetComponentInChildren<Light> ();
 		quad = transform.GetChild (1);
+		sphere = transform.GetChild (2);
 	}
 	
 	// Update is called once per frame
@@ -48,6 +50,10 @@ public class BallFabScript : MonoBehaviour, MagicEntity
 			}
 			if (quad != null) {
 				quad.localScale -= new Vector3(Time.deltaTime, Time.deltaTime, Time.deltaTime);
+			}
+			if (sphere != null) {
+				float ratio = Time.deltaTime / 6.0f;
+				sphere.localScale -= new Vector3(ratio, ratio, ratio);
 			}
 			if (dyingTimer < 0) {
 				Destroy (gameObject);
